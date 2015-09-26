@@ -1,12 +1,9 @@
 package implementacion;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -16,17 +13,24 @@ public class Vaso extends JPanel {
 	
 	private int ancho;
 	private int alto;
+	private double numAleatorio;
+	private int comb1x;
+	private int comb2x;
+	private int comb1y;
+	private int comb2y;	
 
 	public Vaso(){
 		
 		this.particulas = new LinkedList<Particula>();
 		
 		//Particulas en la lista para probar (Deberían insertarse desde la ventana principal)
+		/**
 		this.particulas.add(new Particula(this,20,20,3,3,3));
 		this.particulas.add(new Particula(this,20,20,4,4,4));
 		this.particulas.add(new Particula(this,20,20,5,5,5));
 		this.particulas.add(new Particula(this,20,20,2,2,2));
-		this.particulas.add(new Particula(this,20,20,3,3,3));		
+		this.particulas.add(new Particula(this,20,20,3,3,3));
+		*/		
 	}
 	
 	public void precipitar() throws InterruptedException{
@@ -55,30 +59,65 @@ public class Vaso extends JPanel {
 		this.alto = alto;
 	}
 
-	//Este Método se llamaba anteriormente move(), pero ya que move() es también un método de la clase Partícula, para no confundirse le ponemos agitar() para el Vaso.
+	/**Este Método se llamaba anteriormente move(), pero ya que move() 
+	  * es también un método de la clase Partícula, para no confundirse le ponemos agitar() para el Vaso.
+	*/
 	public void agitar() {
 
 		//Se posiciona en cada partícula de la lista.
 		for(int i = 0 ; i < this.particulas.size() ; i++){
+			
+			numAleatorio = Math.random();
 			
 			Particula particulaActual = this.particulas.get(i);
 			
 			//Se posiciona en otra partícula de la lista.
 			for(int j = 0 ; j < this.particulas.size(); j++){
 				
-				//Si i es diferente de j porque una partícula no se va a colisionar con ella misma, por eso no tiene sentido probar el if(colisión) si i es igual a j.
+				/**Si i es diferente de j porque una partícula no se va a colisionar con ella misma, 
+				  * por eso no tiene sentido probar el if(colisión) si i es igual a j.
+				*/
 				if(i != j){
 					
 					Particula particulaOtra = this.particulas.get(j);
 					
-					//Verifica la condicion
+					//Verifica la condicion de colision
 					if (colision(particulaActual,particulaOtra)){
+						/**
+						 * La idea de generar el numero aleatorio es que las particulas reboten hacia cualquier direccion
+						 * de esta manera solvento (de manera muuy precaria) la idea del limite de la particula como
+						 * un rectangulo y no como un circulo.
+						 * Proximamente habra que establecer la colision de las particulas suponiendo que son redondas
+						 * y no rectangulares.
+						 */
+						if(numAleatorio > 0.0 && numAleatorio < 0.25){
+							comb1x = -1;
+							comb2x = 1;
+							comb1y = 1;
+							comb2y = -1;
+						}else if(numAleatorio >= 0.25 && numAleatorio < 0.50){
+							comb1x = 1;
+							comb2x = -1;
+							comb1y = -1;
+							comb2y = 1;
+						}else if(numAleatorio >= 0.50 && numAleatorio < 0.75){
+							comb1x = -1;
+							comb2x = 1;
+							comb1y = -1;
+							comb2y = 1;
+						}else if(numAleatorio >= 0.75 && numAleatorio < 1.0){
+							comb1x = 1;
+							comb2x = -1;
+							comb1y = 1;
+							comb2y = -1;
+							
+						}
 						
-						particulaActual.setXa(-particulaActual.getVelocidad());
-						particulaOtra.setXa(particulaOtra.getVelocidad());
+						particulaActual.setXa(comb1x*particulaActual.getVelocidad());
+						particulaOtra.setXa(comb2x*particulaOtra.getVelocidad());
 						
-						particulaActual.setYa(particulaActual.getVelocidad());
-						particulaOtra.setYa(-particulaOtra.getVelocidad());			
+						particulaActual.setYa(comb1y*particulaActual.getVelocidad());
+						particulaOtra.setYa(comb2y*particulaOtra.getVelocidad());			
 					}
 					
 				}
@@ -100,8 +139,8 @@ public class Vaso extends JPanel {
 	 * y la pelota tendria que cambiar el sentido en el que rebota
 	 * 
 	 * por otro lado, el metodo intersects devuelve true si el obj de la izquierda se choca con el de la derecha*/
-	private boolean colision(Particula particula, Particula particula1) {			
-		return particula.getLimite().intersects(particula1.getLimite());		
+	private boolean colision(Particula particula, Particula particula1) {		
+		return particula.getLimite().intersects(particula1.getLimite()); 
 	}
 	
 	@Override
@@ -113,38 +152,11 @@ public class Vaso extends JPanel {
 			
 			this.particulas.get(i).paint(g2d);
 			
-		}
-		
+		}		
 	}
-		
-	/**
-	public static void main(String[] args) throws InterruptedException {
-		
 
-		JFrame frame = new JFrame("Vaso de Precipitados");
+	public void agregarParticula(Particula particula) {		
+		this.particulas.add(particula);		
+	}
 	
-		Vaso vaso = new Vaso();
-		vaso.setAncho(400);
-		vaso.setAlto(300);				
-		vaso.setBounds(0, 0, vaso.getAncho(), vaso.getAlto());
-		vaso.setBorder(BorderFactory.createLineBorder(Color.black)); 	
-		
-		frame.setSize(1000, 600);			 
-		frame.add(vaso);			
-		frame.setVisible(true);				
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);					
-		vaso.precipitar();
-
-		
-		JButton btnStart = new JButton("Start");
-		btnStart.setBounds(100, 100, 89, 39);
-		frmMainWindow.getContentPane().add(btnStart);
-		btnStart.addActionListener(new ActionListener() {		
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			}		
-		});				
-		
-	}
-	 */
 }

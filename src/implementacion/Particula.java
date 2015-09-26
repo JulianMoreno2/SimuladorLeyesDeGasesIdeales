@@ -2,6 +2,8 @@ package implementacion;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 
 public class Particula {
 
@@ -17,6 +19,8 @@ public class Particula {
 	private Vaso vaso;
 	private int height;
 	private int width;
+	
+	Shape circle = new Ellipse2D.Float(this.height, this.width,this.x,this.y);
 
 	public Particula(Vaso vaso, int width, int height, int xa, int ya, int velocidad) {
 		this.vaso= vaso;
@@ -45,8 +49,9 @@ public class Particula {
 	/* crea un rectangulo alrededor de la pelota para hacer mas facil el metodo colision*/
 	public Rectangle getLimite() {
 		return new Rectangle(this.x, this.y, this.width, this.height);
+		
 	}		
-	
+
 	public void paint(Graphics2D g) {
 		g.fillOval(this.x, this.y, this.width, this.height);
 	}
