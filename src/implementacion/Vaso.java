@@ -18,6 +18,9 @@ public class Vaso extends JPanel {
 	private int comb2x;
 	private int comb1y;
 	private int comb2y;	
+	private int velocidadParticulas = 1;
+	private int xaParticulas = 1;
+	private int yaParticulas = 1;
 
 	public Vaso(){
 		
@@ -110,7 +113,6 @@ public class Vaso extends JPanel {
 							comb2x = -1;
 							comb1y = 1;
 							comb2y = -1;
-							
 						}
 						
 						particulaActual.setXa(comb1x*particulaActual.getVelocidad());
@@ -127,12 +129,37 @@ public class Vaso extends JPanel {
 		}
 		
 		//Mueve a todas las partículas una vez que se probaron todas las alternativas de colisiones entre ellas
-		for(int k = 0 ; k < this.particulas.size() ; k++){
+		for(int k = 0 ; k < this.particulas.size() ; k++){			
+			this.particulas.get(k).move();			
+		}		
+	}
+	
+	public void subirTemperaturaDeParticulas(){
+		for(int i = 0 ; i < this.particulas.size() ; i++){
+			Particula particulaActual = this.particulas.get(i);
 			
-			this.particulas.get(k).move();
-			
+			particulaActual.setXa(particulaActual.getXa() + 1);
+			particulaActual.setYa(particulaActual.getYa() + 1);
+			particulaActual.setVelocidad(particulaActual.getVelocidad() + 1);
 		}
-		
+		this.setVelocidadParticulas(getVelocidadParticulas()+1);
+		this.setXaParticulas(getXaParticulas()+1);
+		this.setYaParticulas(getYaParticulas()+1);
+	}
+	
+	public void bajarTemperaturaDeParticulas() {
+		if(this.getXaParticulas() > 1 && this.getYaParticulas() > 1 && this.getVelocidadParticulas() > 1){		
+			for(int i = 0 ; i < this.particulas.size() ; i++){
+				Particula particulaActual = this.particulas.get(i);
+				
+				particulaActual.setXa(particulaActual.getXa() - 1);
+				particulaActual.setYa(particulaActual.getYa() - 1);
+				particulaActual.setVelocidad(particulaActual.getVelocidad() - 1);
+			}
+			this.setVelocidadParticulas(getVelocidadParticulas()-1);
+			this.setXaParticulas(getXaParticulas()-1);
+			this.setYaParticulas(getYaParticulas()-1);		
+		}
 	}
 
 	/* el metodo colision tendria que detectar que se esta chocando contra algo (objeto o pared)
@@ -158,5 +185,31 @@ public class Vaso extends JPanel {
 	public void agregarParticula(Particula particula) {		
 		this.particulas.add(particula);		
 	}
+
+	public int getVelocidadParticulas() {
+		return velocidadParticulas;
+	}
+
+	public void setVelocidadParticulas(int velocidadParticulas) {
+		this.velocidadParticulas = velocidadParticulas;
+	}
+
+	public int getXaParticulas() {
+		return xaParticulas;
+	}
+
+	public void setXaParticulas(int xaParticulas) {
+		this.xaParticulas = xaParticulas;
+	}
+
+	public int getYaParticulas() {
+		return yaParticulas;
+	}
+
+	public void setYaParticulas(int yaParticulas) {
+		this.yaParticulas = yaParticulas;
+	}
+
+	
 	
 }

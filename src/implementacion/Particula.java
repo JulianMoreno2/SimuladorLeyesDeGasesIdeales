@@ -79,5 +79,15 @@ public class Particula {
 	public void setYa(int ya){
 		this.ya = ya;
 	}
+
+	public int getXa() {
+		// TODO Auto-generated method stub
+		return this.xa;
+	}
+
+	public int getYa() {
+		// TODO Auto-generated method stub
+		return this.ya;
+	}
 	
 }
