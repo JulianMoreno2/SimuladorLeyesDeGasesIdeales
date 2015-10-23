@@ -16,14 +16,14 @@ public class Particula {
 	private int ya;
 	private int velocidad;
 	
-	private Vaso vaso;
+	private Contenedor contenedor;
 	private int height;
 	private int width;
 	
 	Shape circle = new Ellipse2D.Float(this.height, this.width,this.x,this.y);
 
-	public Particula(Vaso vaso, int width, int height, int xa, int ya, int velocidad) {
-		this.vaso= vaso;
+	public Particula(Contenedor vaso, int width, int height, int xa, int ya, int velocidad) {
+		this.contenedor= vaso;
 		setXa(xa);
 		setYa(ya);
 		this.width = width;
@@ -35,11 +35,11 @@ public class Particula {
 		
 		if (x + xa < 0)
 			xa = velocidad;
-		if (x + xa > vaso.getAncho() - this.width)
+		if (x + xa > contenedor.getAncho() - this.width)
 			xa = -velocidad;
 		if (y + ya < 0)
 			ya = velocidad;
-		if (y + ya > vaso.getAlto() - this.height)
+		if (y + ya > contenedor.getAlto() - this.height)
 			ya = -velocidad;
 		
 		x = x + xa;

@@ -7,12 +7,14 @@ import java.util.List;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class Vaso extends JPanel {
+public class Contenedor extends JPanel {
 
 	private List<Particula> particulas;
 	
 	private int ancho;
 	private int alto;
+	private int x;
+	private int y;
 	private double numAleatorio;
 	private int comb1x;
 	private int comb2x;
@@ -22,18 +24,17 @@ public class Vaso extends JPanel {
 	private int xaParticulas = 1;
 	private int yaParticulas = 1;
 
-	public Vaso(){
+	public Contenedor(){
 		
 		this.particulas = new LinkedList<Particula>();
 		
 		//Particulas en la lista para probar (Deberían insertarse desde la ventana principal)
-		/**
-		this.particulas.add(new Particula(this,20,20,3,3,3));
-		this.particulas.add(new Particula(this,20,20,4,4,4));
-		this.particulas.add(new Particula(this,20,20,5,5,5));
+	
 		this.particulas.add(new Particula(this,20,20,2,2,2));
-		this.particulas.add(new Particula(this,20,20,3,3,3));
-		*/		
+		this.particulas.add(new Particula(this,20,20,2,2,2));
+		this.particulas.add(new Particula(this,20,20,2,2,2));
+		this.particulas.add(new Particula(this,20,20,2,2,2));
+			
 	}
 	
 	public void precipitar() throws InterruptedException{
@@ -42,8 +43,7 @@ public class Vaso extends JPanel {
 			this.agitar();
 			this.repaint();	
 			Thread.sleep(10);
-		}	
-		
+		}			
 	}
 	
 	public int getAncho(){			
@@ -208,6 +208,29 @@ public class Vaso extends JPanel {
 
 	public void setYaParticulas(int yaParticulas) {
 		this.yaParticulas = yaParticulas;
+	}
+
+	public void setLimites(int x, int y, int ancho, int alto) {
+		this.setX(x);
+		this.setY(x);
+		this.ancho = ancho;
+		this.alto = alto;		
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	
