@@ -20,21 +20,12 @@ public class Contenedor extends JPanel {
 	private int comb2x;
 	private int comb1y;
 	private int comb2y;	
-	private int velocidadParticulas = 1;
-	private int xaParticulas = 1;
-	private int yaParticulas = 1;
+	private Float velocidadParticulas = (float) 1;
+	private Float xaParticulas = (float) 1;
+	private Float yaParticulas = (float) 1;
 
-	public Contenedor(){
-		
-		this.particulas = new LinkedList<Particula>();
-		
-		//Particulas en la lista para probar (Deberían insertarse desde la ventana principal)
-	
-		this.particulas.add(new Particula(this,20,20,2,2,2));
-		this.particulas.add(new Particula(this,20,20,2,2,2));
-		this.particulas.add(new Particula(this,20,20,2,2,2));
-		this.particulas.add(new Particula(this,20,20,2,2,2));
-			
+	public Contenedor(){		
+		this.particulas = new LinkedList<Particula>();			
 	}
 	
 	public void precipitar() throws InterruptedException{
@@ -62,9 +53,9 @@ public class Contenedor extends JPanel {
 		this.alto = alto;
 	}
 
-	/**Este Método se llamaba anteriormente move(), pero ya que move() 
+	/** Este Método se llamaba anteriormente move(), pero ya que move() 
 	  * es también un método de la clase Partícula, para no confundirse le ponemos agitar() para el Vaso.
-	*/
+	  */
 	public void agitar() {
 
 		//Se posiciona en cada partícula de la lista.
@@ -77,9 +68,9 @@ public class Contenedor extends JPanel {
 			//Se posiciona en otra partícula de la lista.
 			for(int j = 0 ; j < this.particulas.size(); j++){
 				
-				/**Si i es diferente de j porque una partícula no se va a colisionar con ella misma, 
-				  * por eso no tiene sentido probar el if(colisión) si i es igual a j.
-				*/
+				/** Si i es diferente de j porque una partícula no se va a colisionar con ella misma, 
+				 *  por eso no tiene sentido probar el if(colisión) si i es igual a j.
+			     */
 				if(i != j){
 					
 					Particula particulaOtra = this.particulas.get(j);
@@ -134,80 +125,104 @@ public class Contenedor extends JPanel {
 		}		
 	}
 	
-	public void subirTemperaturaDeParticulas(){
-		for(int i = 0 ; i < this.particulas.size() ; i++){
-			Particula particulaActual = this.particulas.get(i);
-			
-			particulaActual.setXa(particulaActual.getXa() + 1);
-			particulaActual.setYa(particulaActual.getYa() + 1);
-			particulaActual.setVelocidad(particulaActual.getVelocidad() + 1);
-		}
-		this.setVelocidadParticulas(getVelocidadParticulas()+1);
-		this.setXaParticulas(getXaParticulas()+1);
-		this.setYaParticulas(getYaParticulas()+1);
-	}
-	
-	public void bajarTemperaturaDeParticulas() {
-		if(this.getXaParticulas() > 1 && this.getYaParticulas() > 1 && this.getVelocidadParticulas() > 1){		
-			for(int i = 0 ; i < this.particulas.size() ; i++){
-				Particula particulaActual = this.particulas.get(i);
-				
-				particulaActual.setXa(particulaActual.getXa() - 1);
-				particulaActual.setYa(particulaActual.getYa() - 1);
-				particulaActual.setVelocidad(particulaActual.getVelocidad() - 1);
-			}
-			this.setVelocidadParticulas(getVelocidadParticulas()-1);
-			this.setXaParticulas(getXaParticulas()-1);
-			this.setYaParticulas(getYaParticulas()-1);		
-		}
-	}
-
-	/* el metodo colision tendria que detectar que se esta chocando contra algo (objeto o pared)
-	 * y la pelota tendria que cambiar el sentido en el que rebota
-	 * 
-	 * por otro lado, el metodo intersects devuelve true si el obj de la izquierda se choca con el de la derecha*/
-	private boolean colision(Particula particula, Particula particula1) {		
-		return particula.getLimite().intersects(particula1.getLimite()); 
-	}
-	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
-				
+		
 		for(int i = 0; i < this.particulas.size() ; i++){
 			
 			this.particulas.get(i).paint(g2d);
 			
 		}		
 	}
+	
+	/** Modifica la temperatura del sistema
+	 * Divido por 100 a la temperatura para que no se mueva
+	 * tan rapido la imagen de las particulas
+	 * Mejorar la velocidad de las particulas, "punto medio"
+	 * Cuando la temp es menor a cero las particulas se paran, mejorarlo graficamente
+	 */
+	public void modificarTemperaturaDeParticulas(Float temp){	
+				
+		for(int i = 0 ; i < this.particulas.size() ; i++){
+			Particula particulaActual = this.particulas.get(i);
+			
+			particulaActual.setXa(temp/100);
+			particulaActual.setYa(temp/100);
+			particulaActual.setVelocidad(temp/100);
+		}
+		this.setVelocidadParticulas(temp/100);
+		this.setXaParticulas(temp/100);
+		this.setYaParticulas(temp/100);
+	}
 
+	/** El metodo colision tendria que detectar que se esta chocando contra algo (objeto o pared)
+	 * y la pelota tendria que cambiar el sentido en el que rebota
+	 * por otro lado, el metodo intersects devuelve true si el obj de la izquierda se choca con el de la derecha
+	 * */
+	private boolean colision(Particula particula, Particula particula1) {		
+		return particula.getLimite().intersects(particula1.getLimite()); 
+	}
+	
+	/**
+	 * Modificar cantidad de particulas 
+	 * Mejorar la manera en que salen las particulas en el contenedor (Grafico)
+	 */
+	public void modificarCantidadDeMoles(int cantParticulas){
+		
+		if(cantParticulas >= this.particulas.size()){
+			
+			this.agregarMoles(cantParticulas - this.particulas.size());
+		
+		}else{
+			
+			eliminarMoles(this.particulas.size() - cantParticulas);
+		}
+	}
+	
+	/** 
+	 * Agregar un determinado paquete de particulas
+	 */
+	public void agregarMoles(int cantParticulas){	
+		for(int i = 0; i < cantParticulas; i++){
+			this.particulas.add(new Particula(this,10,10,this.getXaParticulas(),this.getYaParticulas(),this.getVelocidadParticulas()));
+		}	
+	}
+	
+	/**
+	 * Elimina un determinado paquete de particulas
+	 */
+	public void eliminarMoles(int cantParticulas){
+		this.particulas.remove(cantParticulas);		
+	}
+	
 	public void agregarParticula(Particula particula) {		
 		this.particulas.add(particula);		
 	}
 
-	public int getVelocidadParticulas() {
+	public Float getVelocidadParticulas() {
 		return velocidadParticulas;
 	}
 
-	public void setVelocidadParticulas(int velocidadParticulas) {
-		this.velocidadParticulas = velocidadParticulas;
+	public void setVelocidadParticulas(Float float1) {
+		this.velocidadParticulas = float1;
 	}
 
-	public int getXaParticulas() {
+	public Float getXaParticulas() {
 		return xaParticulas;
 	}
 
-	public void setXaParticulas(int xaParticulas) {
-		this.xaParticulas = xaParticulas;
+	public void setXaParticulas(Float float1) {
+		this.xaParticulas = float1;
 	}
 
-	public int getYaParticulas() {
+	public Float getYaParticulas() {
 		return yaParticulas;
 	}
 
-	public void setYaParticulas(int yaParticulas) {
-		this.yaParticulas = yaParticulas;
+	public void setYaParticulas(Float float1) {
+		this.yaParticulas = float1;
 	}
 
 	public void setLimites(int x, int y, int ancho, int alto) {

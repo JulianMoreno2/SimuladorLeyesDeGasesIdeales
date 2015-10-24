@@ -12,9 +12,9 @@ public class Particula {
 	private int y = 0;
 
 	// xa y ya representan el movimiento de la pelota
-	private int xa;
-	private int ya;
-	private int velocidad;
+	private Float xa;
+	private Float ya;
+	private Float velocidad;
 	
 	private Contenedor contenedor;
 	private int height;
@@ -22,13 +22,13 @@ public class Particula {
 	
 	Shape circle = new Ellipse2D.Float(this.height, this.width,this.x,this.y);
 
-	public Particula(Contenedor vaso, int width, int height, int xa, int ya, int velocidad) {
+	public Particula(Contenedor vaso, int width, int height, Float xa, Float ya, Float vel) {
 		this.contenedor= vaso;
-		setXa(xa);
-		setYa(ya);
 		this.width = width;
 		this.height = height;
-		this.velocidad = velocidad;
+		this.setXa(xa);
+		this.setYa(ya);
+		this.velocidad = vel;
 	}
 
 	void move() {
@@ -42,8 +42,8 @@ public class Particula {
 		if (y + ya > contenedor.getAlto() - this.height)
 			ya = -velocidad;
 		
-		x = x + xa;
-		y = y + ya;
+		x = (int) (x + xa);
+		y = (int) (y + ya);
 	}
 
 	/* crea un rectangulo alrededor de la pelota para hacer mas facil el metodo colision*/
@@ -56,12 +56,12 @@ public class Particula {
 		g.fillOval(this.x, this.y, this.width, this.height);
 	}
 
-	public int getVelocidad() {
+	public Float getVelocidad() {
 		return this.velocidad;
 	}
 
-	public void setVelocidad(int velocidad) {
-		this.velocidad = velocidad;
+	public void setVelocidad(float f) {
+		this.velocidad = (float) f;
 	}
 
 	public void setX(int x) {
@@ -72,20 +72,20 @@ public class Particula {
 		this.y = y;
 	}
 
-	public void setXa(int xa){
-		this.xa = xa;
+	public void setXa(Float float1){
+		this.xa = float1;
 	}
 	
-	public void setYa(int ya){
-		this.ya = ya;
+	public void setYa(Float float1){
+		this.ya = float1;
 	}
 
-	public int getXa() {
+	public Float getXa() {
 		// TODO Auto-generated method stub
 		return this.xa;
 	}
 
-	public int getYa() {
+	public Float getYa() {
 		// TODO Auto-generated method stub
 		return this.ya;
 	}
