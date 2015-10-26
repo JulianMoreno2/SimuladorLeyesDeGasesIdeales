@@ -96,8 +96,8 @@ public class Simulador extends JFrame {
 				frame.setMoles(source.getValue());
 			}
 		});
-		sliderMoles.setValue(50);
 		sliderMoles.setMaximum(100);
+		sliderMoles.setValue(50);
 		sliderMoles.setMajorTickSpacing(10);
 		sliderMoles.setMinorTickSpacing(5);
 		sliderMoles.setPaintTicks(true);
@@ -129,9 +129,9 @@ public class Simulador extends JFrame {
 				frame.setTemperatura((float) source.getValue());
 			}
 		});
-		sliderTemperatura.setValue(600);
 		sliderTemperatura.setMaximum(600);
 		sliderTemperatura.setMinimum(100);
+		sliderTemperatura.setValue(350);
 		sliderTemperatura.setMajorTickSpacing(100);
 		sliderTemperatura.setMinorTickSpacing(50);
 		sliderTemperatura.setPaintTicks(true);
@@ -162,9 +162,9 @@ public class Simulador extends JFrame {
 				frame.setVolumen((int) source.getValue());
 			}
 		});
-		sliderVolumen.setValue(70);
 		sliderVolumen.setMinimum(30);
 		sliderVolumen.setMaximum(100);
+		sliderVolumen.setValue(100);
 		sliderVolumen.setMajorTickSpacing(10);
 		sliderVolumen.setMinorTickSpacing(5);
 		sliderVolumen.setPaintTicks(true);
