@@ -1,35 +1,18 @@
-package interfaz;
+package ar.edu.untref.simuladordegases.interfaz;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.text.DecimalFormat;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-
-import implementacion.Contenedor;
 
 public class Simulador extends JFrame {
-	
+		
 	/**
 	 * Atributos
 	 */
 	private static final long serialVersionUID = 1L;
-	private String presion = "12.3";
+	private String presion = "12.300";
 	private Integer moles = 25;
 	private Float temperatura = (float) 300;
-	private Float volumen = (float) 50;	
+	private Integer volumen = 50;	
+	private Color colorDePresion;
 	
 	/**
 	 * Launch the application.
@@ -37,24 +20,22 @@ public class Simulador extends JFrame {
 	 */
 	public static void main(String[] args) throws InterruptedException {
 	
-		Simulador frame = new Simulador();
+		final Simulador frame = new Simulador();
 		frame.setBounds(0, 0, 930, 650);	
-		frame.getContentPane().setLayout(null); 
-		//frame.setBackground(Color.GRAY);
+		frame.getContentPane().setLayout(null);
 		
-		SpringLayout springLayout = new SpringLayout();
+		final SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		
 		/**
 		 * Contenedor de particulas
-		 */
-		
-		JPanel contenedor = new Contenedor();
-		((Contenedor) contenedor).setLimites(80,80,220,220);
-		springLayout.putConstraint(SpringLayout.NORTH, contenedor, 80, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, contenedor, 80, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, contenedor, 300, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, contenedor, 300, SpringLayout.WEST, frame.getContentPane());
+		 */		
+		final JPanel contenedor = new Contenedor();		
+		((Contenedor) contenedor).setLimites(80,80,380,450);
+		springLayout.putConstraint(SpringLayout.NORTH, contenedor, 100, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, contenedor, 70, SpringLayout.WEST, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, contenedor, 550, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, contenedor, 450, SpringLayout.WEST, frame.getContentPane());
 		contenedor.setBackground(Color.WHITE);
 		contenedor.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		frame.getContentPane().add(contenedor);
@@ -63,7 +44,7 @@ public class Simulador extends JFrame {
 		 * Etiqueta "SIMULADOR DE GASES" y sus propiedades
 		 */		
 		JLabel lblSimuladorDeGases = new JLabel("SIMULADOR DE GASES");
-		springLayout.putConstraint(SpringLayout.NORTH, lblSimuladorDeGases, 0, SpringLayout.NORTH, frame.getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, lblSimuladorDeGases, 15, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblSimuladorDeGases, 63, SpringLayout.WEST, frame.getContentPane());
 		lblSimuladorDeGases.setForeground(SystemColor.desktop);
 		lblSimuladorDeGases.setFont(new Font("Droid Sans", Font.BOLD, 40));
@@ -103,8 +84,7 @@ public class Simulador extends JFrame {
 		
 		/**
 		 * Slider que define la cantidad de moles de gas
-		 */		
-		
+		 */				
 		JSlider sliderMoles = new JSlider();
 		springLayout.putConstraint(SpringLayout.NORTH, sliderMoles, 189, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, sliderMoles, 553, SpringLayout.WEST, frame.getContentPane());
@@ -116,10 +96,10 @@ public class Simulador extends JFrame {
 				frame.setMoles(source.getValue());
 			}
 		});
-		sliderMoles.setValue(25);
-		sliderMoles.setMaximum(50);
-		sliderMoles.setMajorTickSpacing(5);
-		sliderMoles.setMinorTickSpacing(10);
+		sliderMoles.setValue(50);
+		sliderMoles.setMaximum(100);
+		sliderMoles.setMajorTickSpacing(10);
+		sliderMoles.setMinorTickSpacing(5);
 		sliderMoles.setPaintTicks(true);
 		sliderMoles.setPaintLabels(true);
 		frame.getContentPane().add(sliderMoles);
@@ -136,8 +116,7 @@ public class Simulador extends JFrame {
 		
 		/**
 		 * Slider que define la temperatura del recipiente
-		 */
-		
+		 */		
 		JSlider sliderTemperatura = new JSlider();
 		springLayout.putConstraint(SpringLayout.NORTH, sliderTemperatura, 312, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, sliderTemperatura, 553, SpringLayout.WEST, frame.getContentPane());
@@ -150,8 +129,9 @@ public class Simulador extends JFrame {
 				frame.setTemperatura((float) source.getValue());
 			}
 		});
-		sliderTemperatura.setValue(300);
+		sliderTemperatura.setValue(600);
 		sliderTemperatura.setMaximum(600);
+		sliderTemperatura.setMinimum(100);
 		sliderTemperatura.setMajorTickSpacing(100);
 		sliderTemperatura.setMinorTickSpacing(50);
 		sliderTemperatura.setPaintTicks(true);
@@ -160,8 +140,7 @@ public class Simulador extends JFrame {
 		
 		/**
 		 * Etiqueta "volumen"
-		 */
-		
+		 */		
 		JLabel lblVolumen = new JLabel("Volumen (l)");
 		springLayout.putConstraint(SpringLayout.NORTH, lblVolumen, 402, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblVolumen, 670, SpringLayout.WEST, frame.getContentPane());
@@ -171,8 +150,7 @@ public class Simulador extends JFrame {
 		
 		/**
 		 * Slider que define el volumen del recipiente
-		 */
-		
+		 */		
 		JSlider sliderVolumen = new JSlider();
 		springLayout.putConstraint(SpringLayout.NORTH, sliderVolumen, 424, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, sliderVolumen, 553, SpringLayout.WEST, frame.getContentPane());
@@ -181,10 +159,11 @@ public class Simulador extends JFrame {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				JSlider source = (JSlider) e.getSource();
-				frame.setVolumen((float) source.getValue());
+				frame.setVolumen((int) source.getValue());
 			}
 		});
-		sliderVolumen.setValue(50);
+		sliderVolumen.setValue(70);
+		sliderVolumen.setMinimum(30);
 		sliderVolumen.setMaximum(100);
 		sliderVolumen.setMajorTickSpacing(10);
 		sliderVolumen.setMinorTickSpacing(5);
@@ -193,54 +172,44 @@ public class Simulador extends JFrame {
 		frame.getContentPane().add(sliderVolumen);
 		
 		/**
-		 * Boton que actualiza el valor de la presion y el comportamiento de las particulas del gas en el recipiente
-		 */
-		
+		 * Boton que actualiza el valor de la presion, el volumen y la temperatura del gas
+		 */		
 		JButton btnActualizar = new JButton("Actualizar");
 		springLayout.putConstraint(SpringLayout.NORTH, btnActualizar, 42, SpringLayout.SOUTH, sliderVolumen);
 		springLayout.putConstraint(SpringLayout.WEST, btnActualizar, 0, SpringLayout.WEST, lblTemperatura);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnActualizar, 550, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnActualizar, 131, SpringLayout.WEST, lblTemperatura);
-		btnActualizar.addMouseListener(new MouseAdapter() {
+		btnActualizar.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.actualizar();
-				lblAtm.setText(frame.getPresion() + " atm.");
-				
-				((Contenedor)contenedor).modificarTemperaturaDeParticulas(frame.getTemperatura());
-				
+				//Modificaci贸n de la temperatura del gas
+				((Contenedor)contenedor).modificarTemperaturaDeParticulas(frame.getTemperatura());	
+				//Modificaci贸n de la cantidad de moles de gas
 				((Contenedor)contenedor).modificarCantidadDeMoles(frame.getMoles());
+				//Modificaci贸n del volumen del recipiente
+				Integer nuevoBordeSur = (int) (550 * (frame.getVolumen()/100.0));
+				Integer nuevoBordeEste = (int) (450 * (frame.getVolumen()/100.0));				
+				((Contenedor)contenedor).setAncho(nuevoBordeEste - 70);
+				((Contenedor)contenedor).setAlto(nuevoBordeSur - 100);
+				springLayout.putConstraint(SpringLayout.SOUTH, contenedor, nuevoBordeSur, SpringLayout.NORTH, frame.getContentPane());
+				springLayout.putConstraint(SpringLayout.EAST, contenedor, nuevoBordeEste, SpringLayout.WEST, frame.getContentPane());
+				//Modificaci贸n de la etiqueta de presion
+				lblAtm.setText(frame.getPresion() + " atm.");					
+				lblAtm.setForeground(frame.getColorDePresion());
 				
-				/**
-				 * Falta agregar la funcionalidad del volumen, es decir el tama駉 del contenedor
-				 */
 			}
 		});
 		btnActualizar.setFont(new Font("Droid Sans", Font.BOLD, 16));
 		frame.getContentPane().add(btnActualizar);
-		 
-		
+		 		
 		/*
 		 * Primero genera todo el contenido y luego lo hace visible
 		 * NOTA: Si esta sentencia esta al principio del main NO SE MUESTRA NADA
-		 * NOTA2: Si esta sentencia esta al final del main, 
-		 * el frame nunca se hace visible porque precipitar() es infinito
+		 * NOTA2: Si esta sentencia esta al final del main, el frame nunca se hace visible porque precipitar() es infinito
 		 */
 	    frame.setVisible(true);
-	    
-	    /*
-	     * Hace precipitar las particulas
-	     */
 	    ((Contenedor) contenedor).precipitar();	
-	}
-	
-	/**
-	 * Create the frame.
-	 * @throws InterruptedException 
-	 */
-	public Simulador() throws InterruptedException {
-		
-		
 	}
 	
 	/**
@@ -248,7 +217,7 @@ public class Simulador extends JFrame {
 	 * El valor de la presion resultante y el movimiento de las particulas deben actualizarse aqui
 	 */
 	private void actualizar(){
-		this.presion = this.leyDeGasesIdeales();			
+		this.presion = this.leyDeGasesIdeales();		
 	}
 	
 	/**
@@ -257,8 +226,15 @@ public class Simulador extends JFrame {
 	public String leyDeGasesIdeales(){
 		Float constanteDeGases = new Float(0.082);
 		Float presionResultante = (this.getMoles() * constanteDeGases * this.getTemperatura())/this.getVolumen();
+		this.calcularColorDePresion(presionResultante);
 		DecimalFormat numberFormat = new DecimalFormat("#.000");		
 		return numberFormat.format(presionResultante);
+	}
+	
+	private void calcularColorDePresion(float PresionResultante) {
+		Integer verde = (int) (255.0 * ((PresionResultante - 0.082) / 164.0));
+		Color colorDePresion = new Color(255, 255 - verde, 0);	
+		this.setColorDePresion(colorDePresion);
 	}
 
 	public Integer getMoles() {
@@ -277,11 +253,11 @@ public class Simulador extends JFrame {
 		this.temperatura = temperatura;
 	}
 
-	public Float getVolumen() {
+	public int getVolumen() {
 		return volumen;
 	}
 
-	public void setVolumen(Float volumen) {
+	public void setVolumen(int volumen) {
 		this.volumen = volumen;
 	}
 
@@ -291,6 +267,13 @@ public class Simulador extends JFrame {
 
 	public void setPresion(String presion) {
 		this.presion = presion;
+	}
+
+	public Color getColorDePresion() {
+		return colorDePresion;
+	}
+
+	public void setColorDePresion(Color colorDePresion) {
+		this.colorDePresion = colorDePresion;
 	}	
 }
-
