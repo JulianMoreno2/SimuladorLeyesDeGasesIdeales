@@ -1,5 +1,6 @@
-package implementacion;
+package ar.edu.untref.simuladordegases.implementacion;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -7,23 +8,25 @@ import java.awt.geom.Ellipse2D;
 
 public class Particula {
 
-	// x e y representan la posicion de la pelota en el habitaculo
+	//Posicion de la pelota en el contenedor
 	private int x = 0;
 	private int y = 0;
 
-	// xa y ya representan el movimiento de la pelota
+	//xa y ya representan el movimiento de la pelota
 	private Float xa;
 	private Float ya;
+	
 	private Float velocidad;
+	private Color color;
 	
 	private Contenedor contenedor;
 	private int height;
 	private int width;
 	
-	Shape circle = new Ellipse2D.Float(this.height, this.width,this.x,this.y);
+	Shape circle = new Ellipse2D.Float(this.height, this.width,this.x,this.y);		
 
-	public Particula(Contenedor vaso, int width, int height, Float xa, Float ya, Float vel) {
-		this.contenedor= vaso;
+	public Particula(Contenedor contenedor, int width, int height, Float xa, Float ya, Float vel) {
+		this.contenedor= contenedor;
 		this.width = width;
 		this.height = height;
 		this.setXa(xa);
@@ -31,7 +34,7 @@ public class Particula {
 		this.velocidad = vel;
 	}
 
-	void move() {
+	void mover() {
 		
 		if (x + xa < 0)
 			xa = velocidad;
@@ -54,6 +57,7 @@ public class Particula {
 
 	public void paint(Graphics2D g) {
 		g.fillOval(this.x, this.y, this.width, this.height);
+		g.setColor(this.getColor());
 	}
 
 	public Float getVelocidad() {
@@ -88,6 +92,14 @@ public class Particula {
 	public Float getYa() {
 		// TODO Auto-generated method stub
 		return this.ya;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	
 }
